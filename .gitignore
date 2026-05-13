@@ -1,0 +1,17 @@
+# Variáveis de Ambiente
+.env
+
+# Arquivos e pastas do Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Arquivos do Docker (caso você tenha overrides locais)
+docker-compose.override.yml
+
+# Arquivos gerados pelo Sistema Operacional
+.DS_Store
+Thumbs.db
