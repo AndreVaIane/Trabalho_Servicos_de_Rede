@@ -1,33 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Biblioteca</title>
+    <meta charset="UTF-8">
+    <title>Cadastrar Livro</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <nav style="background: #1C1D21; padding: 15px; text-align: center;">
-    <a href="index.html" style="color: white; margin: 0 15px; text-decoration: none;">Início</a>
-    <a href="cadastroAutor.html" style="color: white; margin: 0 15px; text-decoration: none;">Cadastrar Autor</a>
-    <a href="cadastroLivro.html" style="color: white; margin: 0 15px; text-decoration: none;">Cadastrar Livro</a>
+        <a href="index.html" style="color: white; margin: 0 15px; text-decoration: none;">Início</a>
+        <a href="cadastroAutor.html" style="color: white; margin: 0 15px; text-decoration: none;">Cadastrar Autor</a>
+        <a href="cadastroLivro.html" style="color: #925FE2; margin: 0 15px; text-decoration: none; font-weight: bold;">Cadastrar Livro</a>
     </nav>
-
     <div class="cadastro">
-
-        <!-- FORMULÁRIO -->
         <div class="form">
             <div class="date">
                 <h1>Cadastre um Livro</h1>
-                <input type="text" placeholder="Nome do livro">
-                <input type="text" placeholder="ISBN">
-                <input type="number" placeholder="Nº da edição">
-                <button onclick="criar()">Cadastrar</button>    
+                <input type="text" id="titulo" placeholder="Título do livro">
+                <input type="number" id="ano" placeholder="Ano de publicação">
+                
+                <select id="autor_id">
+                    <option value="">Carregando autores...</option>
+                </select>
+                
+                <button onclick="addLivro()">Salvar Livro</button>    
             </div>
         </div>
-
-        <div class="imagem-livros">
-        </div>
+        <div class="imagem-livros"></div>
     </div>
-
+    <script src="script.js"></script>
 </body>
 </html>

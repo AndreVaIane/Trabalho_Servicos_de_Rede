@@ -107,3 +107,88 @@ button:hover{
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
+
+.lista-home {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 350px; /* Evita que a lista quebre o layout se for muito grande */
+}
+
+.lista-home li {
+    background: #25262B;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    color: #FCFDFF;
+    font-size: 0.8em;
+    display: flex;
+    justify-content: space-between;
+    border-left: 4px solid #925FE2;
+}
+
+.lista-home li strong {
+    color: #925FE2;
+}
+
+/* Ajuste para o texto de boas-vindas */
+.date p {
+    font-size: 0.9em;
+    font-weight: 300;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+/* --- ESTILO PARA O SELECT DE AUTORES --- */
+select {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.8em;
+    background-color: transparent;
+    color: #FCFDFF; /* Texto branco para destacar no fundo escuro */
+    border: 0;
+    border-bottom: 3px solid #38393D;
+    width: 18.5em;
+    height: 2.5em;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+select:focus {
+    border-bottom: 2px solid #925FE2;
+    color: #925FE2;
+}
+
+select option {
+    background-color: #1C1D21; /* Fundo escuro igual ao formulário */
+    color: #FCFDFF;
+}
+
+/* --- BOTÕES DE AÇÃO (EDITAR E EXCLUIR) --- */
+.btn-acao {
+    width: auto;
+    height: auto;
+    padding: 8px 15px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.btn-editar {
+    background-color: #2ecc71; /* Verde elegante */
+}
+.btn-editar:hover {
+    background-color: #27ae60;
+    color: white;
+}
+
+.btn-excluir {
+    background-color: #e74c3c; /* Vermelho elegante */
+}
+.btn-excluir:hover {
+    background-color: #c0392b;
+    color: white;
+}

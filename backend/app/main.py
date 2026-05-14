@@ -42,3 +42,18 @@ def deletar_livro(livro_id: int, db: Session = Depends(database.get_db)):
     db.delete(db_livro)
     db.commit()
     return {"status": "removido"}
+
+@app.put("/livros/{livro_id}", response_model=schemas.Livro)
+def atualizar_livro(livro_id: int, livro_atualizado: schemas.LivroCreate, db: Session = Depends(database.get_db)):
+    db_livro = db.query(models.Livro).filter(models.Livro.id == livro_id).first()
+    if not db_livro:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+    
+    # Atualiza os dados
+    db_livro.titulo = livro_atualizado.titulo
+    db_livro.ano = livro_atualizado.ano
+    db_livro.autor_id = livro_atualizado.autor_id
+    
+    db.commit()
+    db.refresh(db_livro)
+    return db_livro
