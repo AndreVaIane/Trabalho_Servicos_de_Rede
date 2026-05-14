@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+body{
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5em;
+    margin: 0;
+    background-color: #FCFDFF;
+}
+
+.cadastro{
+    display: flex;
+    width: 80%;
+    height: 95vh;
+    margin-left: 10%;
+    margin-top: 5vh;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    width: 40%;
+    height: 80vh;
+    background-color: #1C1D21;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.date{
+    display: flex;
+    gap: 1.5em;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.8em;
+    color: #FCFDFF;
+    justify-content: center;
+    align-items: right;
+    flex-direction: column;/* coluna invertida */
+    margin-left: 20%;
+    margin-top: 10%;
+}
+
+.imagem-livros{
+    display: flex;
+    width: 40%;
+    height: 80vh;
+    background-color: #925FE2;
+    background-image: url("imgs/livros.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+input{
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.8em;
+    background-color: transparent;
+    color: #38393D;
+    border: 0;
+    border-bottom: 3px solid #38393D;
+    width: 18.5em;
+    height: 2.5em;
+    margin: 0;
+}
+
+input:focus{
+    outline: none;
+    border-bottom: 2px solid #925FE2;
+    color:#925FE2;
+}
+
+input:focus::placeholder{
+  color: #925FE2;
+}
+
+button{
+    color: #FCFDFF;
+    width: 15em;
+    height: 3em;
+    border: 0;
+    border-radius: 0.3em;
+    background-color: #9C6EEA;
+    font-family: "Roboto", sans-serif;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+button:hover{
+    background-color: #FCFDFF;
+    color: #38393D;
+} 
+
+
+.imagem-autor{
+    display: flex;
+    width: 40%;
+    height: 80vh;
+    background-color: #925FE2;
+    background-image: url("imgs/autor.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

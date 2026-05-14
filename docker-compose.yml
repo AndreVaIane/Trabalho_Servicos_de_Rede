@@ -25,8 +25,9 @@ services:
     environment:
       # FastAPI usa essa URL para conectar no banco via rede interna
       - DATABASE_URL=postgresql://postgres:${SENHA_BANCO}@postgres:5432/biblioteca
+    # No serviço fastapi, mude o volume para:
     volumes:
-      - ./backend/app:/app  # Mapeia o código para o container
+      - ./backend:/backend  # Mapeia a pasta backend inteira
     networks:
       - netatividade01
 
@@ -38,12 +39,10 @@ services:
     depends_on:
       - fastapi
     ports:
-      # Regra da atividade: mapear apenas 80:8080 e 443:8443
       - "80:8080"
       - "443:8443"
     volumes:
-      # Mapeia a configuração do proxy e os arquivos HTML
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/html:/usr/share/nginx/html:ro
     networks:
       - netatividade01

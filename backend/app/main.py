@@ -1,19 +1,44 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from . import models, database
+from typing import List
+from . import models, database, schemas
 
 # Cria as tabelas no banco de dados automaticamente
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(title="API Sistema de Biblioteca")
 
-# Rota de teste
-@app.get("/api/status")
-def ler_status():
-    return {"status": "Backend FastAPI rodando!", "banco_conectado": "Sim, tabelas criadas!"}
+# --- ROTAS DE AUTORES ---
+@app.post("/autores", response_model=schemas.Autor)
+def criar_autor(autor: schemas.AutorCreate, db: Session = Depends(database.get_db)):
+    novo_autor = models.Autor(nome=autor.nome, nacionalidade=autor.nacionalidade)
+    db.add(novo_autor)
+    db.commit()
+    db.refresh(novo_autor)
+    return novo_autor
 
-# Exemplo rápido de uma rota para o frontend puxar os livros
-@app.get("/api/livros")
+@app.get("/autores", response_model=List[schemas.Autor])
+def listar_autores(db: Session = Depends(database.get_db)):
+    return db.query(models.Autor).all()
+
+# --- ROTAS DE LIVROS ---
+@app.get("/livros", response_model=List[schemas.Livro])
 def listar_livros(db: Session = Depends(database.get_db)):
-    livros = db.query(models.Livro).all()
-    return livros
+    return db.query(models.Livro).all()
+
+@app.post("/livros", response_model=schemas.Livro)
+def criar_livro(livro: schemas.LivroCreate, db: Session = Depends(database.get_db)):
+    novo_livro = models.Livro(**livro.dict())
+    db.add(novo_livro)
+    db.commit()
+    db.refresh(novo_livro)
+    return novo_livro
+
+@app.delete("/livros/{livro_id}")
+def deletar_livro(livro_id: int, db: Session = Depends(database.get_db)):
+    db_livro = db.query(models.Livro).filter(models.Livro.id == livro_id).first()
+    if not db_livro:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+    db.delete(db_livro)
+    db.commit()
+    return {"status": "removido"}

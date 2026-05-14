@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca - Grupo 3</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos exclusivos para organizar a página inicial mantendo a identidade visual */
+        .navbar {
+            background-color: #1C1D21;
+            padding: 20px;
+            text-align: center;
+        }
+        .navbar a {
+            color: #FCFDFF;
+            margin: 0 20px;
+            text-decoration: none;
+            font-family: "Montserrat", sans-serif;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #9C6EEA;
+        }
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 5vh;
+            font-family: "Montserrat", sans-serif;
+        }
+        .dashboard-box {
+            background-color: #FCFDFF;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 60%;
+            text-align: center;
+        }
+        .dashboard-box h1 {
+            color: #1C1D21;
+            margin-bottom: 10px;
+        }
+        .dashboard-box p {
+            color: #38393D;
+            font-size: 0.8em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .lista-livros {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .lista-livros h3 {
+            color: #925FE2;
+            border-bottom: 2px solid #1C1D21;
+            padding-bottom: 10px;
+        }
+        #lista {
+            list-style: none;
+            padding: 0;
+            font-size: 0.8em;
+            color: #38393D;
+        }
+        #lista li {
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" style="color: #9C6EEA; font-weight: bold;">Acervo</a>
+        <a href="cadastroAutor.html">Cadastrar Autor</a>
+        <a href="cadastroLivro.html">Cadastrar Livro</a>
+    </nav>
+
+    <div class="home-container">
+        <div class="dashboard-box">
+            <h1>📚 Sistema de Biblioteca</h1>
+            <p>Bem-vindo ao painel de gestão do Grupo 3. Este sistema permite o cadastro de autores e o gerenciamento de todo o acervo de livros da biblioteca. Utilize o menu superior para adicionar novos registros.</p>
+            
+            <div class="lista-livros">
+                <h3>Livros no Acervo:</h3>
+                <ul id="lista">
+                    <li>Carregando dados do servidor...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function load() {
+            try {
+                const res = await fetch('/api/livros');
+                const livros = await res.json();
+                const lista = document.getElementById('lista');
+                
+                lista.innerHTML = ''; // Limpa o "Carregando..."
+                
+                if (livros.length === 0) {
+                    lista.innerHTML = '<li>Nenhum livro cadastrado no momento.</li>';
+                    return;
+                }
+                
+                livros.forEach(l => {
+                    lista.innerHTML += `
+                        <li>
+                            <span><strong>${l.titulo}</strong> (${l.ano})</span>
+                            <span>Autor ID: ${l.autor_id}</span>
+                        </li>
+                    `;
+                });
+            } catch (erro) {
+                document.getElementById('lista').innerHTML = '<li style="color: red;">Erro ao conectar com o banco de dados.</li>';
+            }
+        }
+        
+        // Carrega os livros assim que a página abre
+        load();
+    </script>
+
+</body>
+</html>
