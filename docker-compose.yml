@@ -27,7 +27,7 @@ services:
       - DATABASE_URL=postgresql://postgres:${SENHA_BANCO}@postgres:5432/biblioteca
     # No serviço fastapi, mude o volume para:
     volumes:
-      - ./backend:/app  # Mapeia a pasta backend inteira
+      - ./backend:/app
     networks:
       - netatividade01
 
