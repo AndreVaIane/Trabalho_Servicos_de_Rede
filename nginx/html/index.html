@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - Acervo</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,49 +13,35 @@
         <a href="cadastroLivro.html" style="color: white; margin: 0 15px; text-decoration: none;">Cadastrar Livro</a>
     </nav>
 
-    <div class="cadastro">
-        <div class="form">
-            <div class="date" style="justify-content: flex-start; padding-top: 40px;">
-                <h1>Acervo Digital</h1>
-                <p>Bem-vindo! Confira abaixo os títulos disponíveis em nossa biblioteca.</p>
+    <div id="modalEdicao" style="display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center;">
+        <div class="form" style="width: 350px; height: auto; border-radius: 20px; padding: 40px; border: 2px solid #925FE2;">
+            <div class="date" style="margin: 0; padding: 0;">
+                <h2 style="color: #925FE2; margin-bottom: 20px;">Editar Livro</h2>
                 
-                <ul id="lista" class="lista-home">
-                    <li>Carregando acervo...</li>
-                </ul>
-            </div>
-        </div>
+                <input type="hidden" id="edit_id">
+                <input type="hidden" id="edit_autor_id">
 
-        <div class="imagem-livros">
+                <p style="color: white; font-size: 0.7em; margin-bottom: 5px;">Título:</p>
+                <input type="text" id="edit_titulo" style="width: 100%; margin-bottom: 20px;">
+                
+                <p style="color: white; font-size: 0.7em; margin-bottom: 5px;">Ano de Publicação:</p>
+                <input type="number" id="edit_ano" style="width: 100%; margin-bottom: 30px;">
+                
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="salvarEdicao()" style="background-color: #2ecc71;">Salvar</button>
+                    <button onclick="fecharModal()" style="background-color: #38393D;">Cancelar</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        async function load() {
-            try {
-                const res = await fetch('/api/livros');
-                const livros = await res.json();
-                const lista = document.getElementById('lista');
-                
-                lista.innerHTML = ''; 
-                
-                if (livros.length === 0) {
-                    lista.innerHTML = '<li>Nenhum livro encontrado.</li>';
-                    return;
-                }
-                
-                livros.forEach(l => {
-                    lista.innerHTML += `
-                        <li>
-                            <span><strong>${l.titulo}</strong> (${l.ano})</span>
-                            <span style="opacity: 0.6;">Autor ID: ${l.autor_id}</span>
-                        </li>
-                    `;
-                });
-            } catch (erro) {
-                document.getElementById('lista').innerHTML = '<li style="color: #ff4d4d;">Erro ao carregar o banco de dados.</li>';
-            }
-        }
-        load();
-    </script>
+    <div class="home-full">
+        <div style="width: 90%; max-width: 900px; text-align: center;">
+            <h1 style="color: #FCFDFF; font-family: 'Montserrat', sans-serif; margin-bottom: 30px;">📚 Acervo Digital</h1>
+            <ul id="lista" class="lista-home"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,52 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* ============================================================
+   CONFIGURAÇÕES GLOBAIS E TIPOGRAFIA
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:wght@100;300;400&display=swap');
 
-body{
+body {
     margin: 0;
+    padding: 0;
     font-family: "Montserrat", sans-serif;
-    font-size: 1.5em;
-    margin: 0;
-    background-color: #FCFDFF;
+    font-size: 1.1em;
+    background-color: #0E0F11; /* Grafite Profundo / Dark Mode */
+    color: #FCFDFF;
+    min-height: 100vh;
 }
 
-.cadastro{
+h1, h2 {
+    color: #FCFDFF;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* ============================================================
+   LAYOUT DAS TELAS DE CADASTRO (COM IMAGEM LATERAL)
+   ============================================================ */
+.cadastro {
     display: flex;
     width: 80%;
-    height: 95vh;
-    margin-left: 10%;
-    margin-top: 5vh;
-    gap: 0;
+    height: 85vh;
+    margin: 5vh auto;
     justify-content: center;
     align-items: center;
 }
 
-.form{
+.form {
     width: 40%;
     height: 80vh;
     background-color: #1C1D21;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.date{
+.date {
     display: flex;
     gap: 1.5em;
     font-family: "Roboto", sans-serif;
-    font-weight: 100;
+    font-weight: 300;
     font-size: 0.8em;
     color: #FCFDFF;
     justify-content: center;
-    align-items: right;
-    flex-direction: column;/* coluna invertida */
-    margin-left: 20%;
-    margin-top: 10%;
+    flex-direction: column;
+    margin-left: 15%;
+    margin-top: 5%;
 }
 
-.imagem-livros{
+.imagem-livros, .imagem-autor {
     display: flex;
     width: 40%;
     height: 80vh;
     background-color: #925FE2;
-    background-image: url("imgs/livros.svg");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -54,30 +65,72 @@ body{
     border-bottom-right-radius: 20px;
 }
 
-input{
+.imagem-livros { background-image: url("imgs/livros.svg"); }
+.imagem-autor { background-image: url("imgs/autor.svg"); }
+
+/* ============================================================
+   LAYOUT DA TELA INICIAL (ACERVO CENTRALIZADO)
+   ============================================================ */
+.home-full {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 50px;
+}
+
+.lista-home {
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 30px;
+}
+
+.lista-home li {
+    background: #1C1D21;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 6px solid #925FE2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   ELEMENTOS DE FORMULÁRIO (INPUTS E SELECTS)
+   ============================================================ */
+input, select {
     font-family: "Roboto", sans-serif;
-    font-weight: 100;
-    font-size: 0.8em;
+    font-weight: 300;
+    font-size: 1em;
     background-color: transparent;
-    color: #38393D;
+    color: #FCFDFF;
     border: 0;
-    border-bottom: 3px solid #38393D;
+    border-bottom: 2px solid #38393D;
     width: 18.5em;
     height: 2.5em;
-    margin: 0;
-}
-
-input:focus{
     outline: none;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
     border-bottom: 2px solid #925FE2;
-    color:#925FE2;
+    color: #925FE2;
 }
 
-input:focus::placeholder{
-  color: #925FE2;
+select option {
+    background-color: #1C1D21;
+    color: #FCFDFF;
 }
 
-button{
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+/* Botão Principal de Cadastro */
+button {
     color: #FCFDFF;
     width: 15em;
     height: 3em;
@@ -86,21 +139,110 @@ button{
     background-color: #9C6EEA;
     font-family: "Roboto", sans-serif;
     font-size: 1em;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-button:hover{
+button:hover {
     background-color: #FCFDFF;
     color: #38393D;
-} 
+}
 
+/* Botões de Ação na Lista (Editar/Excluir) */
+.btn-acao {
+    width: 100px !important;
+    height: 35px !important;
+    font-size: 0.8em !important;
+    margin-left: 8px;
+    font-weight: bold;
+    border-radius: 5px;
+    color: white !important;
+}
 
-.imagem-autor{
+.btn-editar { background-color: #2ecc71; }
+.btn-editar:hover { background-color: #27ae60; }
+
+.btn-excluir { background-color: #e74c3c; }
+.btn-excluir:hover { background-color: #c0392b; }
+
+/* ============================================================
+   MODAL DE EDIÇÃO PERSONALIZADO
+   ============================================================ */
+#modalEdicao div.form {
+    width: 400px;
+    height: auto;
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid #925FE2;
+    background-color: #1C1D21;
+    box-shadow: 0 0 30px rgba(146, 95, 226, 0.4); /* Brilho Roxo */
+    display: flex;
+    flex-direction: column;
+}
+
+#modalEdicao input {
+    width: 100%;
+    margin-bottom: 20px;
+}/* ============================================================
+   CONFIGURAÇÕES GLOBAIS E TIPOGRAFIA
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:wght@100;300;400&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.1em;
+    background-color: #0E0F11; /* Grafite Profundo / Dark Mode */
+    color: #FCFDFF;
+    min-height: 100vh;
+}
+
+h1, h2 {
+    color: #FCFDFF;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* ============================================================
+   LAYOUT DAS TELAS DE CADASTRO (COM IMAGEM LATERAL)
+   ============================================================ */
+.cadastro {
+    display: flex;
+    width: 80%;
+    height: 85vh;
+    margin: 5vh auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    width: 40%;
+    height: 80vh;
+    background-color: #1C1D21;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.date {
+    display: flex;
+    gap: 1.5em;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 0.8em;
+    color: #FCFDFF;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 15%;
+    margin-top: 5%;
+}
+
+.imagem-livros, .imagem-autor {
     display: flex;
     width: 40%;
     height: 80vh;
     background-color: #925FE2;
-    background-image: url("imgs/autor.svg");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -108,87 +250,122 @@ button:hover{
     border-bottom-right-radius: 20px;
 }
 
+.imagem-livros { background-image: url("imgs/livros.svg"); }
+.imagem-autor { background-image: url("imgs/autor.svg"); }
+
+/* ============================================================
+   LAYOUT DA TELA INICIAL (ACERVO CENTRALIZADO)
+   ============================================================ */
+.home-full {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 50px;
+}
+
 .lista-home {
     list-style: none;
     padding: 0;
-    width: 100%;
-    overflow-y: auto;
-    max-height: 350px; /* Evita que a lista quebre o layout se for muito grande */
+    width: 90%;
+    max-width: 800px;
+    margin-top: 30px;
 }
 
 .lista-home li {
-    background: #25262B;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    color: #FCFDFF;
-    font-size: 0.8em;
+    background: #1C1D21;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 12px;
     display: flex;
     justify-content: space-between;
-    border-left: 4px solid #925FE2;
+    align-items: center;
+    border-left: 6px solid #925FE2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
-.lista-home li strong {
-    color: #925FE2;
-}
-
-/* Ajuste para o texto de boas-vindas */
-.date p {
-    font-size: 0.9em;
-    font-weight: 300;
-    line-height: 1.4;
-    margin-bottom: 10px;
-}
-
-/* --- ESTILO PARA O SELECT DE AUTORES --- */
-select {
+/* ============================================================
+   ELEMENTOS DE FORMULÁRIO (INPUTS E SELECTS)
+   ============================================================ */
+input, select {
     font-family: "Roboto", sans-serif;
-    font-weight: 100;
-    font-size: 0.8em;
+    font-weight: 300;
+    font-size: 1em;
     background-color: transparent;
-    color: #FCFDFF; /* Texto branco para destacar no fundo escuro */
+    color: #FCFDFF;
     border: 0;
-    border-bottom: 3px solid #38393D;
+    border-bottom: 2px solid #38393D;
     width: 18.5em;
     height: 2.5em;
-    margin: 0;
     outline: none;
-    cursor: pointer;
+    transition: 0.3s;
 }
 
-select:focus {
+input:focus, select:focus {
     border-bottom: 2px solid #925FE2;
     color: #925FE2;
 }
 
 select option {
-    background-color: #1C1D21; /* Fundo escuro igual ao formulário */
+    background-color: #1C1D21;
     color: #FCFDFF;
 }
 
-/* --- BOTÕES DE AÇÃO (EDITAR E EXCLUIR) --- */
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+/* Botão Principal de Cadastro */
+button {
+    color: #FCFDFF;
+    width: 15em;
+    height: 3em;
+    border: 0;
+    border-radius: 0.3em;
+    background-color: #9C6EEA;
+    font-family: "Roboto", sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #FCFDFF;
+    color: #38393D;
+}
+
+/* Botões de Ação na Lista (Editar/Excluir) */
 .btn-acao {
-    width: auto;
-    height: auto;
-    padding: 8px 15px;
-    font-size: 0.8em;
-    border-radius: 4px;
-    margin-left: 5px;
+    width: 100px !important;
+    height: 35px !important;
+    font-size: 0.8em !important;
+    margin-left: 8px;
     font-weight: bold;
+    border-radius: 5px;
+    color: white !important;
 }
 
-.btn-editar {
-    background-color: #2ecc71; /* Verde elegante */
-}
-.btn-editar:hover {
-    background-color: #27ae60;
-    color: white;
+.btn-editar { background-color: #2ecc71; }
+.btn-editar:hover { background-color: #27ae60; }
+
+.btn-excluir { background-color: #e74c3c; }
+.btn-excluir:hover { background-color: #c0392b; }
+
+/* ============================================================
+   MODAL DE EDIÇÃO PERSONALIZADO
+   ============================================================ */
+#modalEdicao div.form {
+    width: 400px;
+    height: auto;
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid #925FE2;
+    background-color: #1C1D21;
+    box-shadow: 0 0 30px rgba(146, 95, 226, 0.4); /* Brilho Roxo */
+    display: flex;
+    flex-direction: column;
 }
 
-.btn-excluir {
-    background-color: #e74c3c; /* Vermelho elegante */
-}
-.btn-excluir:hover {
-    background-color: #c0392b;
-    color: white;
+#modalEdicao input {
+    width: 100%;
+    margin-bottom: 20px;
 }
