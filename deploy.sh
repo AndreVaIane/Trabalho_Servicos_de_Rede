@@ -20,24 +20,30 @@ chmod 600 ~/.ssh/config
 echo "🌐 Inicializando o nó controlador (VM1)..."
 if [ ! -f ~/.config/uncloud/config.yaml ]; then
     # 1ª Tentativa: O "|| true" ignora o erro esperado do DNS do Caddy ou o timeout.
-    uc machine init vagrant@192.168.56.11 -i ~/.ssh/vm1_key < /dev/null || true
-    
+    uc machine init vagrant@192.168.56.11 -i ~/.ssh/vm1_key --no-dns --public-ip none < /dev/null || true    
+
     # Se o arquivo não foi criado, significa que foi o timeout baixando o Docker.
     if [ ! -f ~/.config/uncloud/config.yaml ]; then
         echo "⚠️ Timeout baixando o motor. Aguardando 15s para o Linux consertar o serviço..."
         sleep 15
         # 2ª Tentativa: Agora o Docker já baixou a imagem.
-        echo "y" | uc machine init vagrant@192.168.56.11 -i ~/.ssh/vm1_key < /dev/null || true
+        echo "y" | uc machine init vagrant@192.168.56.11 -i ~/.ssh/vm1_key --no-dns --public-ip none < /dev/null || true
     fi
 else
     echo "✅ Contexto já existe, pulando a inicialização."
 fi
 
 echo "🌐 Adicionando o nó operário (VM2)..."
-echo "y" | uc machine add vagrant@192.168.56.12 -i ~/.ssh/vm2_key < /dev/null || true
+echo "y" | uc machine add vagrant@192.168.56.12 -i ~/.ssh/vm2_key --public-ip none < /dev/null || true
+
+echo "🔄 Garantindo que o Docker na VM2 está limpo e destravado..."
+ssh -i ~/.ssh/vm2_key vagrant@192.168.56.12 "sudo systemctl restart docker" < /dev/null || true
 
 echo "📦 Construindo a imagem do FastAPI na VM2 (Isso pode levar 1 minuto)..."
 ssh -n -i ~/.ssh/vm2_key vagrant@192.168.56.12 "sudo docker build -t andrevaiane/fastapi-biblioteca:latest /vagrant/backend"
+
+echo "🧹 Limpando serviços de tentativas anteriores..."
+uc service rm postgres-db loki-service fastapi nginx < /dev/null 2>/dev/null || true
 
 echo "⚙️ Subindo PostgreSQL e Loki na VM1 (Camada de Dados)..."
 uc run --machine vm1-dados --name postgres-db \
