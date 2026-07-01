@@ -1,10 +1,17 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Requeste
 from sqlalchemy.orm import Session
 from typing import List
 import time
 from . import models, database, schemas, seed
+from .logger import send_to_loki
 
 app = FastAPI(title="API Sistema de Biblioteca")
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    response = await call_next(request)
+    send_to_loki("info", f"[{request.method}] {request.url.path} - Status: {response.status_code}")
+    return response
 
 # Evento que roda assim que o servidor liga
 @app.on_event("startup")
