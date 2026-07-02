@@ -69,7 +69,6 @@ Assim que o script finalizar com sucesso, a interface web estará disponível pe
 
 Para conferir se os containers estão rodando e alocados nas máquinas corretas, execute os comandos abaixo dentro da **vm1-dados**:
 
-```bash
 ### Ver as máquinas ativas no cluster
 uc machine ls
 
