@@ -70,13 +70,13 @@ Assim que o script finalizar com sucesso, a interface web estará disponível pe
 Para conferir se os containers estão rodando e alocados nas máquinas corretas, execute os comandos abaixo dentro da **vm1-dados**:
 
 ```bash
-# Ver as máquinas ativas no cluster
+### Ver as máquinas ativas no cluster
 uc machine ls
 
-# Ver o status de todos os serviços implantados
+### Ver o status de todos os serviços implantados
 uc service ls
 
-# Ver os containers rodando (réplicas)
+### Ver os containers rodando (réplicas)
 uc ps
 
 ### Consultando Logs no Grafana Loki
