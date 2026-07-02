@@ -6,6 +6,8 @@ Nesta etapa, a aplicação (originalmente em Docker Compose) foi portada e adapt
 
 ## 👥 Integrantes do Grupo
 * André Mendonça Valane
+* Maria Eduarda Agum
+* Yasmim Florindo
 
 ## ⚙️ Orquestrador Utilizado: Uncloud
 Para a orquestração do cluster, optamos pelo **[Uncloud](https://uncloud.run/)**. Trata-se de um orquestrador de containers *open source* minimalista e declarativo, excelente para gerenciar serviços em múltiplos hosts de forma distribuída, sem a sobrecarga e complexidade de ferramentas maiores como o Kubernetes[cite: 5]. Ele gerencia a rede interna, os *deploys* e o roteamento entre as máquinas de forma simplificada.
