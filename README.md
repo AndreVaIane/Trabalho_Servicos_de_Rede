@@ -66,8 +66,10 @@ Assim que o script finalizar com sucesso, a interface web estará disponível pe
 ## 🩺 Verificação de Estado e Logs (Observabilidade)
 
 ### Verificando o Estado dos Serviços
-Para conferir se os containers estão rodando e alocados nas máquinas corretas, execute dentro da `vm1-dados`[cite: 5]:
-`bash
+
+Para conferir se os containers estão rodando e alocados nas máquinas corretas, execute os comandos abaixo dentro da **vm1-dados**:
+
+```bash
 # Ver as máquinas ativas no cluster
 uc machine ls
 
@@ -76,7 +78,7 @@ uc service ls
 
 # Ver os containers rodando (réplicas)
 uc ps
-`
+
 ### Consultando Logs no Grafana Loki
 
 Atendendo aos requisitos de segurança e isolamento de rede da atividade, os serviços da Camada de Dados (PostgreSQL e Loki) **não expõem portas diretamente para a máquina hospedeira** (`127.0.0.1` ou `localhost`)[cite: 5]. Eles operam exclusivamente na rede interna do cluster[cite: 5].
