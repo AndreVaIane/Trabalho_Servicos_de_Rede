@@ -15,3 +15,6 @@ docker-compose.override.yml
 # Arquivos gerados pelo Sistema Operacional
 .DS_Store
 Thumbs.db
+
+# Arquivos do Vagrant
+.vagrant/

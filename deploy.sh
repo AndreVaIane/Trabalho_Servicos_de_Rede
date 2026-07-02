@@ -17,16 +17,21 @@ chmod 600 ~/.ssh/vm1_key ~/.ssh/vm2_key
 echo -e "Host 192.168.56.*\n  StrictHostKeyChecking no\n  UserKnownHostsFile=/dev/null" > ~/.ssh/config
 chmod 600 ~/.ssh/config
 
+# Destravando a rede antes de mexer no cluster
+echo "🔄 Destravando a rede do Docker na VM2 (Bug de NAT do VirtualBox)..."
+ssh -n -i ~/.ssh/vm2_key vagrant@192.168.56.12 "sudo systemctl restart docker" || true
+sleep 5
+
+echo "📦 Construindo a imagem do FastAPI na VM2 (Isso pode levar 1 minuto)..."
+ssh -n -i ~/.ssh/vm2_key vagrant@192.168.56.12 "sudo docker build -t andrevaiane/fastapi-biblioteca:latest /vagrant/backend"
+
 echo "🌐 Inicializando o nó controlador (VM1)..."
 if [ ! -f ~/.config/uncloud/config.yaml ]; then
-    # 1ª Tentativa: O "|| true" ignora o erro esperado do DNS do Caddy ou o timeout.
     uc machine init vagrant@192.168.56.11 -i ~/.ssh/vm1_key --no-dns --public-ip none < /dev/null || true    
 
-    # Se o arquivo não foi criado, significa que foi o timeout baixando o Docker.
     if [ ! -f ~/.config/uncloud/config.yaml ]; then
-        echo "⚠️ Timeout baixando o motor. Aguardando 15s para o Linux consertar o serviço..."
+        echo "⚠️ Timeout baixando o motor. Aguardando 15s para tentar novamente..."
         sleep 15
-        # 2ª Tentativa: Agora o Docker já baixou a imagem.
         echo "y" | uc machine init vagrant@192.168.56.11 -i ~/.ssh/vm1_key --no-dns --public-ip none < /dev/null || true
     fi
 else
@@ -34,16 +39,14 @@ else
 fi
 
 echo "🌐 Adicionando o nó operário (VM2)..."
-echo "y" | uc machine add vagrant@192.168.56.12 -i ~/.ssh/vm2_key --public-ip none < /dev/null || true
+echo "y" | uc machine add vagrant@192.168.56.12 -i ~/.ssh/vm2_key --public-ip none 2>/dev/null || true
+sleep 5
+echo "y" | uc machine add vagrant@192.168.56.12 -i ~/.ssh/vm2_key --public-ip none 2>/dev/null || true
 
-echo "🔄 Garantindo que o Docker na VM2 está limpo e destravado..."
-ssh -i ~/.ssh/vm2_key vagrant@192.168.56.12 "sudo systemctl restart docker" < /dev/null || true
-
-echo "📦 Construindo a imagem do FastAPI na VM2 (Isso pode levar 1 minuto)..."
-ssh -n -i ~/.ssh/vm2_key vagrant@192.168.56.12 "sudo docker build -t andrevaiane/fastapi-biblioteca:latest /vagrant/backend"
-
-echo "🧹 Limpando serviços de tentativas anteriores..."
-uc service rm postgres-db loki-service fastapi nginx < /dev/null 2>/dev/null || true
+# A MUDANÇA ESTÁ AQUI: Incluímos o 'caddy' na lista de exclusão e damos sleep 3 para liberar a porta 80
+echo "🧹 Limpando serviços antigos e liberando a porta 80..."
+uc service rm caddy postgres-db loki-service fastapi nginx < /dev/null 2>/dev/null || true
+sleep 3 
 
 echo "⚙️ Subindo PostgreSQL e Loki na VM1 (Camada de Dados)..."
 uc run --machine vm1-dados --name postgres-db \
